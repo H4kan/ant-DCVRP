@@ -9,7 +9,7 @@ namespace antDCVRP.Model
     [Serializable]
     public class VehicleInfo
     {
-        public decimal Capacity { get; set; }
+        public double Capacity { get; set; }
 
         public int StartId { get; set; }
     }

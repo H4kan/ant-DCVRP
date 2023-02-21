@@ -13,7 +13,7 @@ namespace antDCVRP.Model
 
         public PositionXY Position { get; set; }
 
-        public decimal Demand { get; set; }
+        public double Demand { get; set; }
 
         public Customer() {
             this.Position = new PositionXY();
@@ -25,8 +25,8 @@ namespace antDCVRP.Model
     [Serializable]
     public class PositionXY
     {
-        public decimal X { get; set; }
+        public double X { get; set; }
 
-        public decimal Y { get; set; }
+        public double Y { get; set; }
     }
 }

@@ -70,8 +70,8 @@ namespace antDCVRP.Reader
                     throw new InvalidCVRPrepFormatException();
                 }
 
-                newCustomer.Position.X = SafeDecimalParse(positionNodes[0]?.InnerText);
-                newCustomer.Position.Y = SafeDecimalParse(positionNodes[1]?.InnerText);
+                newCustomer.Position.X = SafeDoubleParse(positionNodes[0]?.InnerText);
+                newCustomer.Position.Y = SafeDoubleParse(positionNodes[1]?.InnerText);
 
                 this._simulation.Customers.Add(newCustomer);
 
@@ -99,7 +99,7 @@ namespace antDCVRP.Reader
                 throw new InvalidCVRPrepFormatException();
             }
 
-            this._simulation.Vehicle.Capacity = this.SafeDecimalParse(capacityNode?.InnerText);
+            this._simulation.Vehicle.Capacity = this.SafeDoubleParse(capacityNode?.InnerText);
         }
 
         private void ReadRequests(XmlNode node)
@@ -129,7 +129,7 @@ namespace antDCVRP.Reader
                     throw new InvalidCVRPrepFormatException();
                 }
 
-                requestedCustomer.Demand = SafeDecimalParse(quantityNode?.InnerText);
+                requestedCustomer.Demand = SafeDoubleParse(quantityNode?.InnerText);
 
             }
         }
@@ -149,7 +149,7 @@ namespace antDCVRP.Reader
             }
         }
 
-        private decimal SafeDecimalParse(string? text)
+        private double SafeDoubleParse(string? text)
         {
             if (text == null)
             {
@@ -157,7 +157,7 @@ namespace antDCVRP.Reader
             }
             try
             {
-                return decimal.Parse(text, CultureInfo.InvariantCulture);
+                return double.Parse(text, CultureInfo.InvariantCulture);
             }
             catch
             {

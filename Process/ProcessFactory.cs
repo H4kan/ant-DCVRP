@@ -1,4 +1,5 @@
-﻿using antDCVRP.Reader;
+﻿using antDCVRP.Extensions;
+using antDCVRP.Reader;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace antDCVRP.Process
 
             reader.Read("C:\\Users\\Szymon\\Desktop\\msi-projects\\ant-DCVRP\\benchmark\\googledev\\full.xml");
 
-            var simulation = reader.GetSimulation();
+            var simulation = new SimulationExt(reader.GetSimulation());
 
             Console.WriteLine(simulation);
         }

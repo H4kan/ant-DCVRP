@@ -14,6 +14,12 @@ namespace antDCVRP.Model
             this.Customers = new List<Customer>();
         }
 
+        public Simulation(Simulation simulation)
+        {
+            this.Vehicle = simulation.Vehicle;
+            this.Customers = simulation.Customers;
+        }
+
         public List<Customer> Customers { get; set; }
 
         public VehicleInfo Vehicle { get; set; }
