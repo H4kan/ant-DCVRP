@@ -1,4 +1,5 @@
 ﻿using antDCVRP.Extensions;
+using antDCVRP.RandomUtils;
 using antDCVRP.Reader;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace antDCVRP.Process
     {
         public static void ConductSimulation()
         {
+
+            RandomManager.SetupSeed(1);
 
             var reader = ReaderResolver.ResolveStandardReader();
 

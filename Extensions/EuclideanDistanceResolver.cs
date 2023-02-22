@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace antDCVRP.Extensions
 {
-    public class EuclideanDistanceResolver
+    public class EuclideanDistanceResolver : IDistanceResolver
     {
-        private double[][] distances = new double[0][];
+        private Dictionary<int, Dictionary<int, double>> distances = new Dictionary<int, Dictionary<int, double>>();
 
         public void LoadDistances(List<Customer> customers)
         {
-            distances = new double[customers.Count][];
             for (int i = 0; i < customers.Count; i++)
             {
-                distances[i] = new double[customers.Count];
+                var customerDict = new Dictionary<int, double>();
+                distances.Add(customers[i].Id, customerDict);
                 for (int j = 0; j < customers.Count; j++)
                 {
-                    distances[i][j] = ResolveEuclidanDistance(customers[i].Position, customers[j].Position);
+                    distances[customers[i].Id][customers[j].Id] = ResolveEuclidanDistance(customers[i].Position, customers[j].Position);
                 }
             }
         }
@@ -29,9 +29,9 @@ namespace antDCVRP.Extensions
             return Math.Sqrt((pos1.X - pos2.X) * (pos1.X - pos2.X) + (pos1.Y - pos2.Y) * (pos1.Y - pos2.Y));
         }
 
-        public double GetDist(int i, int j)
+        public double GetDist(int customerId1, int customerId2)
         {
-            return distances[i][j];
+            return distances[customerId1][customerId2];
         }
     }
 }

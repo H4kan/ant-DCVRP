@@ -130,6 +130,10 @@ namespace antDCVRP.Reader
                 }
 
                 requestedCustomer.Demand = SafeDoubleParse(quantityNode?.InnerText);
+                if (requestedCustomer.Demand > this._simulation.Vehicle.Capacity)
+                {
+                    throw new InvalidCVRPrepFormatException();
+                }
 
             }
         }
