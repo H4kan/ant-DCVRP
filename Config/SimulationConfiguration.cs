@@ -6,27 +6,28 @@ using System.Threading.Tasks;
 
 namespace antDCVRP.Config
 {
-    public class SimulationConfiguration
+    public sealed class SimulationConfiguration
     {
-        public double VehicleMaxDistance { get; private set; }
+        public required  double VehicleMaxDistance { get; set; }
 
-        public int NumberOfVehicles { get; private set; }
+        public required int NumberOfVehicles { get; set; }
 
-        public double Alpha { get; private set; }
-        public double Beta { get; private set; }
-        public double Gamma { get; private set; }
+        public required double Alpha { get; set; }
+        public required double Beta { get; set; }
+        public required double Gamma { get; set; }
 
-        public int AntsPerIteration { get; private set; }
+        public required int AntsPerIteration { get; set; }
+        public required int MaximumIteration { get; set; }
+        public required int NoImprovementsStop { get; set; }
 
-        public SimulationConfiguration() 
-        {
-            this.VehicleMaxDistance = 100.0;
-            this.NumberOfVehicles = 4;
-            this.AntsPerIteration = 3;
-            this.Alpha = 1.0;
-            this.Beta = 1.0;
-            this.Gamma = 1.0;
+        public required double PersistenceTrail { get; set; }
 
-        }
+        public required double Theta { get; set; }
+
+        public required int Sigma { get; set; }
+
+        public required int FeasibleNeighbourhoodFactor { get; set;}
+
+        public required bool Opt2Optimization { get; set; } 
     }
 }

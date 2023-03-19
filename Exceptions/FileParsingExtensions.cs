@@ -19,4 +19,11 @@ namespace antDCVRP.Exceptions
 
         public InputFileNotFoundException() : base(message) { }
     }
+
+    public class InvalidConfigurationException : Exception
+    {
+        private const string message = "Configuration file is invalid";
+
+        public InvalidConfigurationException() : base(message) { }
+    }
 }

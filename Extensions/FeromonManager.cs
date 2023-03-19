@@ -21,7 +21,7 @@ namespace antDCVRP.Extensions
 
         private List<Customer> Customers { get; set; }
 
-        private int InitialCustomerId { get; set; }
+        private Customer InitialCustomer { get; set; }
 
         public FeromonManager(IDistanceResolver distanceResolver, SimulationConfiguration configuration)
         {
@@ -29,10 +29,10 @@ namespace antDCVRP.Extensions
             this.Configuration = configuration;
         }
 
-        public void LoadFeromons(List<Customer> customers, int initialCustomerId)
+        public void LoadFeromons(List<Customer> customers, Customer initialCustomer)
         {
             this.Customers = customers;
-            this.InitialCustomerId = initialCustomerId;
+            this.InitialCustomer = initialCustomer;
             for (int i = 0; i < customers.Count; i++)
             {
                 var feromonsDict = new Dictionary<int, double>();
@@ -63,8 +63,8 @@ namespace antDCVRP.Extensions
                         this.Configuration.Beta);
                     
                     var savingsPart = Math.Pow(
-                        this.DistanceResolver.GetDist(this.Customers[i].Id, this.Customers[this.InitialCustomerId].Id)
-                        + this.DistanceResolver.GetDist(this.Customers[j].Id, this.Customers[this.InitialCustomerId].Id)
+                        this.DistanceResolver.GetDist(this.Customers[i].Id, this.InitialCustomer.Id)
+                        + this.DistanceResolver.GetDist(this.Customers[j].Id, this.InitialCustomer.Id)
                         - this.DistanceResolver.GetDist(this.Customers[i].Id, this.Customers[j].Id),
                         this.Configuration.Gamma);
                     var productParts = heuristicPart * pheromonPart * savingsPart;
@@ -77,7 +77,7 @@ namespace antDCVRP.Extensions
 
         private double GetInitialFeromonValue()
         {
-            return 0.1;
+            return 0.4;
         }
 
         public double GetInfluence(int customerId1, int customerId2)
@@ -105,6 +105,20 @@ namespace antDCVRP.Extensions
                 throw new InvalidFeromonReferenceException();
             }
             feromons[customerId1][customerId2] += newValue;
+        }
+
+        public void EvaportateFeromon(double evaporateFactor)
+        { 
+            for (int i = 0; i < this.Customers.Count; i++)
+            {
+                for (int j = 0; j < this.Customers.Count; j++)
+                {
+                    if (i != j)
+                    {
+                        this.feromons[this.Customers[i].Id][this.Customers[j].Id] *= evaporateFactor;
+                    }
+                }
+            }
         }
     }
 }

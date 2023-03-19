@@ -12,13 +12,13 @@ using System.Xml;
 namespace antDCVRP.Reader
 {
     // CVRPrep convention format reader
-    public class StandardReader : IReader
+    public class StandardReader : FileReader
     {
 
-        private Simulation _simulation = new Simulation();
-
-        public void Read(string path)
+        public override void ReadMap()
         {
+            var path = this.IOConfiguration.InputFile;
+
             if (!File.Exists(path))
             {
                 throw new InputFileNotFoundException();
@@ -169,9 +169,6 @@ namespace antDCVRP.Reader
             }
         }
 
-        public Simulation GetSimulation()
-        {
-            return _simulation.DeepClone();
-        }
+
     }
 }

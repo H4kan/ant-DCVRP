@@ -8,6 +8,6 @@ namespace antDCVRP.Reader
 {
     public static class ReaderResolver
     {
-        public static IReader ResolveStandardReader() { return new StandardReader(); }
+        public static FileReader ResolveStandardReader() { return new StandardReader(); }
     }
 }

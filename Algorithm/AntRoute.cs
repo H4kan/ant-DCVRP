@@ -45,7 +45,9 @@ namespace antDCVRP.Algorithm
                 this.CapacityLeft >= c.Demand && 
                 this.DistanceLeft >= this.simulation.GetDist(this.Current.Id, c.Id) 
                     + this.simulation.GetDist(this.Current.Id, this.simulation.InitialCustomer.Id)
-                && c.Id != this.Current.Id).ToList();
+                && c.Id != this.Current.Id)
+                .OrderByDescending(c => this.simulation.feromonManager.GetInfluence(this.Current.Id, c.Id))
+                .ToList();
         }
     }
 }
