@@ -8,7 +8,7 @@ namespace antDCVRP.Config
 {
     public sealed class SimulationConfiguration
     {
-        public required  double VehicleMaxDistance { get; set; }
+        //public required  double VehicleMaxDistance { get; set; }
 
         public required int NumberOfVehicles { get; set; }
 

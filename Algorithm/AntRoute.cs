@@ -14,7 +14,7 @@ namespace antDCVRP.Algorithm
 
         public double CapacityLeft { get; set; }
 
-        public double DistanceLeft { get; set; }
+        //public double DistanceLeft { get; set; }
 
         public List<Customer> AvailableCustomers { get; set; }
 
@@ -25,7 +25,7 @@ namespace antDCVRP.Algorithm
             this.simulation = simulation;
             this.Current = simulation.InitialCustomer;
             this.CapacityLeft = simulation.Vehicle.Capacity;
-            this.DistanceLeft = simulation.Configuration.VehicleMaxDistance;
+            //this.DistanceLeft = simulation.Configuration.VehicleMaxDistance;
             this.AvailableCustomers = new List<Customer>();
             this.AvailableCustomers.AddRange(notExploredCustomers);
             TrimAvailableCustomers();
@@ -34,7 +34,7 @@ namespace antDCVRP.Algorithm
         public void MoveAntRoute(Customer targetCustomer)
         {
             this.CapacityLeft -= targetCustomer.Demand;
-            this.DistanceLeft -= this.simulation.GetDist(this.Current.Id, targetCustomer.Id);
+            //this.DistanceLeft -= this.simulation.GetDist(this.Current.Id, targetCustomer.Id);
             this.Current = targetCustomer;
             TrimAvailableCustomers();
         }
@@ -42,9 +42,9 @@ namespace antDCVRP.Algorithm
         private void TrimAvailableCustomers()
         {
             this.AvailableCustomers = this.AvailableCustomers.Where(c => 
-                this.CapacityLeft >= c.Demand && 
-                this.DistanceLeft >= this.simulation.GetDist(this.Current.Id, c.Id) 
-                    + this.simulation.GetDist(this.Current.Id, this.simulation.InitialCustomer.Id)
+                this.CapacityLeft >= c.Demand 
+                //&& this.DistanceLeft >= this.simulation.GetDist(this.Current.Id, c.Id) 
+                //    + this.simulation.GetDist(this.Current.Id, this.simulation.InitialCustomer.Id)
                 && c.Id != this.Current.Id)
                 .OrderByDescending(c => this.simulation.feromonManager.GetInfluence(this.Current.Id, c.Id))
                 .ToList();
