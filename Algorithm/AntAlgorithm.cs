@@ -1,5 +1,6 @@
 ﻿using antDCVRP.Extensions;
 using antDCVRP.Output;
+using antDCVRP.Process;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace antDCVRP.Algorithm
 {
-    public class AntAlgorithm
+    public class AntAlgorithm : IAlgorithm
     {
         private SimulationExt simulation { get; set; }
 
         private Logger logger { get; set; }
 
-        public AntAlgorithm(SimulationExt simulation, Logger logger)
+        public AntAlgorithm(SimulationExt simulation, Logger logger) 
         {
             this.simulation = simulation;
             this.logger = logger;

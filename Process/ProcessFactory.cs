@@ -1,5 +1,6 @@
 ﻿using antDCVRP.Algorithm;
 using antDCVRP.Extensions;
+using antDCVRP.Greedy;
 using antDCVRP.Output;
 using antDCVRP.RandomUtils;
 using antDCVRP.Reader;
@@ -17,7 +18,7 @@ namespace antDCVRP.Process
         public static void ConductSimulation()
         {
 
-            RandomManager.SetupSeed(1);
+
 
             var reader = ReaderResolver.ResolveStandardReader();
 
@@ -28,19 +29,34 @@ namespace antDCVRP.Process
 
             var simulation = new SimulationExt(reader.GetSimulation(), reader.Configuration);
 
+            RandomManager.SetupSeed(simulation.Configuration.RandomSeed);
+
             var logger = new Logger(reader.IOConfiguration);
 
-            var algorithm = new AntAlgorithm(simulation, logger);
+            IAlgorithm algorithm = GetAlgorithm(simulation, logger);
 
             var bestSolution = algorithm.ConductAlgorithm();
 
             logger.LogBestSolution(bestSolution);
+            
 
             if (reader.IOConfiguration.OutputFile.Length == 0)
             {
                 Console.Read();
             }
 
+        }
+
+        private static IAlgorithm GetAlgorithm(SimulationExt simulation, Logger logger)
+        {
+            if (simulation.Configuration.GreedyAlgorithm)
+            {
+                return new GRAlgorithm(simulation);
+            }
+            else
+            {
+                return new AntAlgorithm(simulation, logger);
+            }
         }
     }
 }

@@ -29,5 +29,15 @@ namespace antDCVRP.Config
         public required int FeasibleNeighbourhoodFactor { get; set;}
 
         public required bool Opt2Optimization { get; set; } 
+
+        public required bool EliteAntsSelection { get; set; }
+
+        public required bool HeuristicDistribution { get; set; }
+
+        public required bool GreedyAlgorithm { get; set; }
+
+        public required double InitialFeromon { get; set; }
+
+        public required int RandomSeed { get; set; }
     }
 }

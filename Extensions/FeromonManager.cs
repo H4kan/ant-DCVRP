@@ -52,16 +52,43 @@ namespace antDCVRP.Extensions
 
         public void RecalculateInfluence()
         {
+            if (this.Configuration.HeuristicDistribution)
+            {
+                this.RecalculateHeuristicInfluence();
+            }
+            else
+            {
+                this.RecalculateSimpleInfluence();
+            }
+
+        }
+
+        private void RecalculateSimpleInfluence()
+        {
             for (int i = 0; i < this.Customers.Count; i++)
             {
                 for (int j = 0; j < i; j++)
                 {
-                    var pheromonPart = Math.Pow(this.GetFeromon(this.Customers[i].Id, this.Customers[j].Id), 
+                    var pheromonPart = this.GetFeromon(this.Customers[i].Id, this.Customers[j].Id);
+
+                    influence[this.Customers[i].Id][this.Customers[j].Id] = pheromonPart;
+                    influence[this.Customers[j].Id][this.Customers[i].Id] = pheromonPart;
+                }
+            }
+        }
+
+        private void RecalculateHeuristicInfluence()
+        {
+            for (int i = 0; i < this.Customers.Count; i++)
+            {
+                for (int j = 0; j < i; j++)
+                {
+                    var pheromonPart = Math.Pow(this.GetFeromon(this.Customers[i].Id, this.Customers[j].Id),
                         this.Configuration.Alpha);
 
-                    var heuristicPart = 1 / Math.Pow(this.DistanceResolver.GetDist(this.Customers[i].Id, this.Customers[j].Id), 
+                    var heuristicPart = 1 / Math.Pow(this.DistanceResolver.GetDist(this.Customers[i].Id, this.Customers[j].Id),
                         this.Configuration.Beta);
-                    
+
                     var savingsPart = Math.Pow(
                         this.DistanceResolver.GetDist(this.Customers[i].Id, this.InitialCustomer.Id)
                         + this.DistanceResolver.GetDist(this.Customers[j].Id, this.InitialCustomer.Id)
@@ -77,7 +104,7 @@ namespace antDCVRP.Extensions
 
         private double GetInitialFeromonValue()
         {
-            return 0.4;
+            return Configuration.InitialFeromon;
         }
 
         public double GetInfluence(int customerId1, int customerId2)

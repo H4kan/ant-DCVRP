@@ -46,8 +46,11 @@ namespace antDCVRP.Algorithm
 
                 this.productSolutions.Add(processedSolution);
             }
+
+            var elitistTake = this.simulation.Configuration.EliteAntsSelection ? 
+                this.simulation.Configuration.Sigma - 1 : this.productSolutions.Count();
             var elitistSolutions = this.productSolutions.OrderBy(s => s.Sum)
-                .Take(this.simulation.Configuration.Sigma - 1).ToList();
+                .Take(elitistTake).ToList();
 
             var bestInIteration = elitistSolutions.First();
             if (this.BestSolution == null || bestInIteration.Sum < this.BestSolution.Sum)
@@ -75,11 +78,11 @@ namespace antDCVRP.Algorithm
         {
             this.EvaporatePheromons();
 
-            for (int lambda = 1; lambda < this.simulation.Configuration.Sigma; lambda++)
+            for (int lambda = 1; lambda < elitistSolutions.Count; lambda++)
             {
-                this.DepositLambdaPheromons(elitistSolutions[lambda - 1], lambda);
+                this.DepositLambdaPheromons(elitistSolutions[lambda - 1], lambda, elitistSolutions.Count);
             }
-            this.DepositBestPheromons(this.BestSolution);
+            this.DepositBestPheromons(this.BestSolution, elitistSolutions.Count);
             this.simulation.feromonManager.RecalculateInfluence();
         }
 
@@ -88,18 +91,18 @@ namespace antDCVRP.Algorithm
             this.simulation.feromonManager.EvaportateFeromon(this.GetEvaporateFactor());
         }
 
-        private void DepositLambdaPheromons(ProductSolution solution, int lambda)
+        private void DepositLambdaPheromons(ProductSolution solution, int lambda, int maxLambda)
         {
-            var increase = (this.simulation.Configuration.Sigma - lambda) / solution.Sum;
+            var increase = (maxLambda - lambda) / solution.Sum;
             for (int i = 0; i < solution.Customers.Count - 1; i++)
             {
                 this.simulation.feromonManager.IncreaseFeromon(solution.Customers[i].Id, solution.Customers[i + 1].Id, increase);
             }
         }
 
-        private void DepositBestPheromons(ProductSolution solution)
+        private void DepositBestPheromons(ProductSolution solution, int maxLambda)
         {
-            var increase = this.simulation.Configuration.Sigma / solution.Sum;
+            var increase = maxLambda/ solution.Sum;
             for (int i = 0; i < solution.Customers.Count - 1; i++)
             {
                 this.simulation.feromonManager.IncreaseFeromon(solution.Customers[i].Id, solution.Customers[i + 1].Id, increase);
