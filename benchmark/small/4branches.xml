@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <instance>
     <info>
-        <dataset>Example taken from developers.google.com</dataset>
-        <name>full</name>
+        <dataset>Example with 4 branches</dataset>
+        <name>4branches</name>
     </info>
     <network>
         <nodes>

@@ -66,9 +66,11 @@ namespace antDCVRP.Output
             outputStream.Write(concatenatedOutput);
         }
 
-        public void LogBestSolution(ProductSolution solution)
+        public void LogBestSolution(ProductSolution solution, TimeSpan elapsedTime)
         {
             outputStream.Write("--------------------------\n");
+            outputStream.Write("Elapsed Time is {0:00}:{1:00}:{2:00}.{3}\n",
+                 elapsedTime.Hours, elapsedTime.Minutes, elapsedTime.Seconds, elapsedTime.Milliseconds);
             LogSolution(solution);
         }
 

@@ -14,7 +14,7 @@ namespace antDCVRP.Algorithm
     {
         public List<Customer> Customers { get; private set; }
 
-        public double Sum { get; private set; }
+        public double Sum { get; set; }
 
         public IDistanceResolver distanceResolver;
 
@@ -34,6 +34,7 @@ namespace antDCVRP.Algorithm
             }
             this.Sum += this.distanceResolver.GetDist(prevCustomer.Id, nextCustomer.Id);
             this.Customers.Add(nextCustomer);
+
         }
     }
 }

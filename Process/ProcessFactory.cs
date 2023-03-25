@@ -6,6 +6,7 @@ using antDCVRP.RandomUtils;
 using antDCVRP.Reader;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -35,9 +36,13 @@ namespace antDCVRP.Process
 
             IAlgorithm algorithm = GetAlgorithm(simulation, logger);
 
-            var bestSolution = algorithm.ConductAlgorithm();
+            var stopwatch = new Stopwatch();
 
-            logger.LogBestSolution(bestSolution);
+            stopwatch.Start();
+            var bestSolution = algorithm.ConductAlgorithm();
+            stopwatch.Stop();
+
+            logger.LogBestSolution(bestSolution, stopwatch.Elapsed);
             
 
             if (reader.IOConfiguration.OutputFile.Length == 0)
@@ -51,7 +56,7 @@ namespace antDCVRP.Process
         {
             if (simulation.Configuration.GreedyAlgorithm)
             {
-                return new GRAlgorithm(simulation);
+                return new GRAlgorithm(simulation, logger);
             }
             else
             {
